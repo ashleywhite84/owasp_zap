@@ -25,13 +25,14 @@ module OwaspZap
        def initialize(params = {})
             #TODO
             # handle params
-            @base = params[:base] || "http://127.0.0.1:8080"
+            @base = params[:base] || "http://10.121.42.207:8080"
             @target = params[:target]
             @api_key = params[:api_key]
-            @zap_bin = params [:zap] || "#{ENV['HOME']}/ZAP/zap.sh"
+            @zap_bin = params [:zap] || "C:\\it\\daemon.bat"
             @output = params[:output] || $stdout #default we log everything to the stdout
         end
-
+cmd_line += if params[:api_key] == true
+                " -config api.key=#{@api_key}"
         def status_for(component)
             case component
             when :ascan
