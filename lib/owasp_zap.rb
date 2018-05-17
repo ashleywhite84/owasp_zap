@@ -13,6 +13,8 @@ require_relative "owasp_zap/alert"
 require_relative "owasp_zap/auth"
 require_relative "owasp_zap/scanner"
 require_relative "owasp_zap/policy"
+require_relative "owasp_zap/url"
+require_relative "owasp_zap/context"
 
 module OwaspZap
     class ZapException < Exception;end
@@ -81,11 +83,19 @@ module OwaspZap
             Zap::Auth.new(:base=>@base)
         end
 
+        def url
+            Zap::Url.new(:base=>@base,:target=>@target)
+        end
+
+        def context
+            Zap::Context.new(:base=>@base,:target=>@target)
+        end
+
         # TODO
         # DOCUMENT the step necessary: install ZAP under $home/ZAP or should be passed to new as :zap parameter
         def start(params = {})
             # default we are disabling api key
-            params = {api_key:false}.merge(params)
+            params = {api_key:true}.merge(params)
             cmd_line = "#{@zap_bin}"
             case
             when params.key?(:daemon)
@@ -94,7 +104,7 @@ module OwaspZap
               cmd_line += if params[:api_key] == true
                 " -config api.key=#{@api_key}"
               else
-                " -config api.disablekey=true"
+                puts "Api Key missing or incorrect"
               end
             end
             if params.key?(:host)
@@ -131,7 +141,7 @@ module OwaspZap
         def html_report
             RestClient::get "#{@base}/OTHER/core/other/htmlreport/"
         end
-        
+
         def json_report
             RestClient::get "#{@base}/OTHER/core/other/jsonreport/"
         end

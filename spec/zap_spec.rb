@@ -48,7 +48,7 @@ describe Zap do
         assert_equal @zap.auth.class, Zap::Auth
     end
 
-    it "should respond_to ascan" do 
+    it "should respond_to ascan" do
         @zap.must_respond_to :ascan
     end
 
@@ -56,6 +56,10 @@ describe Zap do
         assert_equal @zap.ascan.class, Zap::Attack
     end
 
+    it "should call the url" do
+       assert_equal @zap.url.class, Zap::Url
+    end
+    
     it "should respond_to alerts" do
         @zap.must_respond_to :alerts
     end
@@ -98,13 +102,13 @@ end
 
 describe "StringExtension" do
     it "should not respond_to camel_case and snake_case" do
-        @str = "" 
+        @str = ""
         [:camel_case,:snake_case].each do |m|
             @str.wont_respond_to m
         end
     end
      it "should respond_to camel_case and snake_case" do
-        @str = "" 
+        @str = ""
         @str.extend Zap::StringExtension
         [:camel_case,:snake_case].each do |m|
             @str.must_respond_to m
@@ -118,11 +122,11 @@ describe "StringExtension" do
     it "should answer to snake_case" do
         @str = "fooBar"
         @str.extend Zap::StringExtension
-        assert_equal @str.snake_case,"foo_bar" 
+        assert_equal @str.snake_case,"foo_bar"
     end
 end
 
-describe "status_for" do 
+describe "status_for" do
     before do
         @h = Zap::Zap.new :target=>"http://127.0.0.1"
         stub_request(:get, "http://127.0.0.1:8080/JSON/spider/view/status/?zapapiformat=JSON").to_return(:status => 200, :body => {:status=>"100"}.to_json, :headers => {})
@@ -145,7 +149,7 @@ describe "status_for" do
     it "should return an integer" do
         @h.spider.status.must_be_kind_of Numeric
     end
-end 
+end
 
 describe "running? method" do
     before do
