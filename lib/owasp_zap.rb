@@ -15,6 +15,8 @@ require_relative "owasp_zap/scanner"
 require_relative "owasp_zap/policy"
 require_relative "owasp_zap/url"
 require_relative "owasp_zap/context"
+require_relative "owasp_zap/newsession"
+require_relative "owasp_zap/savesession"
 
 module OwaspZap
     class ZapException < Exception;end
@@ -25,10 +27,12 @@ module OwaspZap
        def initialize(params = {})
             #TODO
             # handle params
-            @base = params[:base] || "http://10.121.42.207:8080"
+            @base = params[:base] || "http://127.0.0.1:8080"
             @target = params[:target]
             @api_key = params[:api_key]
             @zap_bin = params [:zap] || "C:\\it\\daemon.bat"
+            @name    = params [:sessionname]   #creation of new sessions with names and also allows these to be saved with this name
+            @overwrite = params [:overwrite]   #allows to set overwirte to true or false
             @output = params[:output] || $stdout #default we log everything to the stdout
         end
 cmd_line += if params[:api_key] == true
@@ -84,12 +88,21 @@ cmd_line += if params[:api_key] == true
             Zap::Auth.new(:base=>@base)
         end
 
+        #setup of sessions and scan urls with context
         def url
             Zap::Url.new(:base=>@base,:target=>@target)
         end
 
         def context
             Zap::Context.new(:base=>@base,:target=>@target)
+        end
+
+        def newSession
+          Zap::NewSession.new(:base=>@base,:session=>@name,:overwrite=>@overwrite)
+        end
+
+        def saveSession
+          Zap::SaveSession.new(:base=>@base,:session=>@name,:overwrite=>@overwrite)
         end
 
         # TODO

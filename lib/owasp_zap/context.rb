@@ -12,3 +12,5 @@ module OwaspZap
         url.query_values = {:zapapiformat=>"JSON",:contextName=>"Default Context",:regex=>@target.*}
         RestClient::get url.normalize.to_str
     end
+  end
+end
