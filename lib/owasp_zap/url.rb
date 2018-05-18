@@ -9,7 +9,7 @@ module OwaspZap
 
       def start
           url = Addressable::URI.parse("#{@base}/JSON/core/action/accessUrl/")
-          url.query_values = {:zapapiformat=>"JSON",:url=>@target,:followRedirects=>true}
+          url.query_values = {:zapapiformat=>"JSON",:url=>@target,:followRedirects=>@redirects}
           RestClient::get url.normalize.to_str
       end
 

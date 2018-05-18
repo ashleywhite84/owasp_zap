@@ -33,6 +33,8 @@ module OwaspZap
             @zap_bin = params [:zap] || "C:\\it\\daemon.bat"
             @name    = params [:sessionname]   #creation of new sessions with names and also allows these to be saved with this name
             @overwrite = params [:overwrite]   #allows to set overwirte to true or false
+            @redirects  = params [:followRedirects]
+            @recurse  =params [:recurse]
             @output = params[:output] || $stdout #default we log everything to the stdout
         end
 cmd_line += if params[:api_key] == true
