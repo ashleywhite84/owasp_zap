@@ -9,7 +9,7 @@ module OwaspZap
 
     def start
         url = Addressable::URI.parse("#{@base}/JSON/context/action/IncludeInContext/")
-        url.query_values = {:zapapiformat=>"JSON",:contextName=>"Default Context",:regex=>@target.*}
+        url.query_values = {:zapapiformat=>"JSON",:contextName=>@context,:regex=>@target.*}
         RestClient::get url.normalize.to_str
     end
   end

@@ -28,13 +28,14 @@ module OwaspZap
             #TODO
             # handle params
             @base = params[:base] || "http://127.0.0.1:8080"
-            @target = params[:target]
+            @target = params[:target,:regex]
             @api_key = params[:api_key]
             @zap_bin = params [:zap] || "C:\\it\\daemon.bat"
             @name    = params [:sessionname]   #creation of new sessions with names and also allows these to be saved with this name
             @overwrite = params [:overwrite]   #allows to set overwirte to true or false
             @redirects  = params [:followRedirects]   # allows the accessurl to for redirections if there is a redirection in place on the site.
             @recurse  =params [:recurse]   # adds recurse to attack to allow it recurse directories
+            @context  =params [:context]   #apply on context to a url
             @output = params[:output] || $stdout #default we log everything to the stdout
         end
 cmd_line += if params[:api_key] == true
@@ -79,7 +80,7 @@ cmd_line += if params[:api_key] == true
 
         #attack
         def ascan
-            Zap::Attack.new(:base=>@base,:target=>@target)
+            Zap::Attack.new(:base=>@base,:target=>@target,:recurse=>@recurse)
         end
 
         def spider
@@ -92,11 +93,11 @@ cmd_line += if params[:api_key] == true
 
         #setup of sessions and scan urls with context
         def url
-            Zap::Url.new(:base=>@base,:target=>@target)
+            Zap::Url.new(:base=>@base,:target=>@target,:followRedirects=>@followRedirects)
         end
 
         def context
-            Zap::Context.new(:base=>@base,:target=>@target)
+            Zap::Context.new(:base=>@base,:regex=>@target,:context=>@context)
         end
 
         def newSession
