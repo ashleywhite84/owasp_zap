@@ -22,7 +22,7 @@ module OwaspZap
     class ZapException < Exception;end
 
     class Zap
-       attr_accessor :target,:base,:zap_bin,:sessionname,:overwrite
+       attr_accessor :target,:base,:zap_bin,:sessionname,:overwrite,:regex,:followRedirects,:recurse,:context
        attr_reader :api_key
        def initialize(params = {})
             #TODO
