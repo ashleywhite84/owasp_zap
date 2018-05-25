@@ -1,26 +1,31 @@
-module OwaspZap
-    class Spider
-
-        def initialize(params = {})
-            #TODO
-            #handle it
-            @base = params[:base]
-            @target = params[:target]
-        end
+# module OwaspZap
+#     class Spider
+#
+#         def initialize(params = {})
+#             #
+#             #handle it
+#             @base = params[:base]
+#             @target = params[:target]
+#         end
+Puppet::Functions.create_function(:'owasp_zap::spider') do
+  dispatch :attack do
+    param :base
+    param :target
+  end
 
         def start
             #http://localhost:8080/JSON/spider/action/scan/?zapapiformat=JSON&url=
-            url = Addressable::URI.parse "#{@base}/JSON/spider/action/scan/"
-            url.query_values = {:zapapiformat=>"JSON",:url=>@target}
+            url = Addressable::URI.parse "#{base}/JSON/spider/action/scan/"
+            url.query_values = {:zapapiformat=>"JSON",:url=>"#{target}"}
             RestClient::get url.normalize.to_str
         end
 
         def stop
-            RestClient::get "#{@base}/JSON/spider/action/stop/?zapapiformat=JSON"
+            RestClient::get "#{base}/JSON/spider/action/stop/?zapapiformat=JSON"
         end
 
         def status
-            ret = JSON.parse(RestClient::get("#{@base}/JSON/spider/view/status/?zapapiformat=JSON"))
+            ret = JSON.parse(RestClient::get("#{base}/JSON/spider/view/status/?zapapiformat=JSON"))
             if ret.has_key? "status"
                 ret["status"].to_i
             else
@@ -30,13 +35,13 @@ module OwaspZap
 
        def set_depth(max_d)
             #http://localhost:8084/JSON/spider/action/setOptionMaxDepth/?Integer=1
-            url = Addressable::URI.parse("#{@base}/JSON/spider/action/setOptionMaxDepth/")
+            url = Addressable::URI.parse("#{base}/JSON/spider/action/setOptionMaxDepth/")
             url.query_values = {:integer=>max_d.to_i}
             RestClient::get url.normalize.to_str
        end
 
        def depth
-            JSON.parse(RestClient::get("#{@base}/JSON/spider/view/optionMaxDepth/?zapapiformat=JSON"))
+            JSON.parse(RestClient::get("#{base}/JSON/spider/view/optionMaxDepth/?zapapiformat=JSON"))
        end
 
        def running?
