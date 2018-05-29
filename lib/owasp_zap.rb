@@ -160,21 +160,21 @@ cmd_line += if params[:api_key] == true
 
         #shutdown zap
         def shutdown
-            RestClient::get "#{"#{base}"}/JSON/core/action/shutdown/"
+            RestClient::get "#{base}/JSON/core/action/shutdown/"
         end
 
         #xml report
         #maybe it should be refactored to alert.
         def xml_report
-            RestClient::get "#{"#{base}"}/OTHER/core/other/xmlreport/"
+            RestClient::get "#{base}/OTHER/core/other/xmlreport/"
         end
 
         def html_report
-            RestClient::get "#{"#{base}"}/OTHER/core/other/htmlreport/"
+            RestClient::get "#{base}/OTHER/core/other/htmlreport/"
         end
 
         def json_report
-            RestClient::get "#{"#{base}"}/OTHER/core/other/jsonreport/"
+            RestClient::get "#{base}/OTHER/core/other/jsonreport/"
         end
    end
 end
