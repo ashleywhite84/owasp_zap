@@ -6,7 +6,7 @@ Puppet::Functions.create_function(:'owasp_zap::newsession') do
     param :sessionname
   end
 end
-module OwaspZap
+#module OwaspZap
   class newsession
     def initialize(params = {})
         # TODO
@@ -16,7 +16,8 @@ module OwaspZap
         @overwrite = params[:overwrite]
     end
     def start
-        url = Addressable::URI.parse("#{base}/JSON/core/action/newSession/")
+        url = Addressable::URI.parse("https://10.121.42.207:8080/JSON/core/action/newSession/")
+        #url = Addressable::URI.parse("#{base}/JSON/core/action/newSession/")
         url.query_values = {:zapapiformat=>"JSON",:sessionname=>"#{sessionname}",:overwrite=>"#{overwrite}"}
         RestClient::get url.normalize.to_str
     end
