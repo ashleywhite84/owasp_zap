@@ -1,15 +1,18 @@
-# module OwaspZap
-#     class Alert
-#         def initialize(params = {})
-#             #handle params
-#             @base = params[:base]
-#             @target = params[:target]
-#         end
+
 Puppet::Functions.create_function(:'owasp_zap::alert') do
   dispatch :attack do
     param :base
     param :target
   end
+end
+module OwaspZap
+    class Alert
+        def initialize(params = {})
+            #handle params
+            # TODO
+            @base = params[:base]
+            @target = params[:target]
+        end
         #
         # the API has an option to give an offset (start) and the amount of alerts (count) as parameter
         def view(format = "JSON")

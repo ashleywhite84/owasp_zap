@@ -1,18 +1,19 @@
-# module OwaspZap
-#     class Spider
-#
-#         def initialize(params = {})
-#             #
-#             #handle it
-#             @base = params[:base]
-#             @target = params[:target]
-#         end
+
 Puppet::Functions.create_function(:'owasp_zap::spider') do
   dispatch :attack do
     param :base
     param :target
   end
+end
+module OwaspZap
+    class Spider
 
+        def initialize(params = {})
+            # TODO
+            #handle it
+            @base = params[:base]
+            @target = params[:target]
+        end
         def start
             #http://localhost:8080/JSON/spider/action/scan/?zapapiformat=JSON&url=
             url = Addressable::URI.parse "#{base}/JSON/spider/action/scan/"

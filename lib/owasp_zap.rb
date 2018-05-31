@@ -32,28 +32,29 @@ Puppet::Functions.create_function(:'owasp_zap::owasp_zap') do
     param :output
   end
 
-# module OwaspZap
-#     class ZapException < Exception;end
-#
-#     class Zap
-#       attr_accessor :target,:base,:zap_bin,:sessionname,:overwrite,:regex,:followRedirects,:recurse,:context
-#       attr_reader :api_key
-       # def initialize(params = {})
-       #      #
-       #      # handle params
-       #      base        = params[:base] || "http://127.0.0.1:8080"
-       #      target      = params[:target,:regex]
-       #      @api_key    = params[:api_key]
-       #      @zap_bin    = params [:zap] || "C:\\it\\daemon.bat"
-       #      name        = params [:sessionname]   #creation of new sessions with names and also allows these to be saved with this name
-       #      overwrite   = params [:overwrite]   #allows to set overwirte to true or false
-       #      @redirects  = params [:followRedirects]   # allows the accessurl to for redirections if there is a redirection in place on the site.
-       #      recurse     = params [:recurse]   # adds recurse to attack to allow it recurse directories
-       #      @context    = params [:context]   #apply on context to a url
-       #      @output     = params[:output] || $stdout #default we log everything to the stdout
-       #  end
-cmd_line += if params[:api_key] == true
-                 -config api.key="#{api_key}"
+module OwaspZap
+    class ZapException < Exception;end
+
+    class Zap
+      attr_accessor :target,:base,:zap_bin,:sessionname,:overwrite,:regex,:followRedirects,:recurse,:context
+      attr_reader :api_key
+       def initialize(params = {})
+            # TODO
+            # handle params
+            base        = params[:base] || "http://127.0.0.1:8080"
+            target      = params[:target,:regex]
+            @api_key    = params[:api_key]
+            @zap_bin    = params [:zap] || "C:\\it\\daemon.bat"
+            name        = params [:sessionname]   #creation of new sessions with names and also allows these to be saved with this name
+            overwrite   = params [:overwrite]   #allows to set overwirte to true or false
+            @redirects  = params [:followRedirects]   # allows the accessurl to for redirections if there is a redirection in place on the site.
+            recurse     = params [:recurse]   # adds recurse to attack to allow it recurse directories
+            @context    = params [:context]   #apply on context to a url
+            @output     = params[:output] || $stdout #default we log everything to the stdout
+            cmd_line += if params[:api_key] == true
+                             -config api.key="#{api_key}"
+        end
+
         def status_for(component)
             case component
             when :ascan

@@ -5,15 +5,15 @@ Puppet::Functions.create_function(:'owasp_zap::attack') do
     param :target
     param :recurse
   end
-
-# module OwaspZap
-    #class Attack
-        # def initialize(params = {})
-        # #
-        #     # handle it
-        #     @base = params[:base]
-        #     @target = params[:target]
-        # end
+end
+module OwaspZap
+    class Attack
+        def initialize(params = {})
+            # TODO
+            # handle it
+            @base = params[:base]
+            @target = params[:target]
+        end
 
         def start
             url = Addressable::URI.parse("#{base}/JSON/ascan/action/scan/")

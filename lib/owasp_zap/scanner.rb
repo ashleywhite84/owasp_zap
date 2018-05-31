@@ -1,15 +1,16 @@
-# module OwaspZap
-#     # TODO
-#     # maybe create a policy class as well
-#     class Scanner
-#         def initialize(params = {})
-#             @base = params[:base]
-#         end
+
 Puppet::Functions.create_function(:'owasp_zap::scanner') do
   dispatch :attack do
     param :base
   end
-
+end
+module OwaspZap
+    # TODO
+    # maybe create a policy class as well
+    class Scanner
+        def initialize(params = {})
+            @base = params[:base]
+        end
         def view(policy_id = 0)
             # http://127.0.0.1:8080/JSON/ascan/view/scanners/?zapapiformat=JSON&policyId=0
             url = Addressable::URI.parse("#{base}/JSON/ascan/view/scanners/")
